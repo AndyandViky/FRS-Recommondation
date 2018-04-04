@@ -1,0 +1,62 @@
+2018-04-03 17:14:49,433 - ERROR - app.py - log_exception - 1560 - Exception on /camera/dead [PUT]
+Traceback (most recent call last):
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1615, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1632, in finalize_request
+    response = self.process_response(response)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1856, in process_response
+    response = handler(response)
+TypeError: http_end_log() takes 0 positional arguments but 1 was given
+2018-04-03 17:29:02,396 - ERROR - app.py - log_exception - 1560 - Exception on /camera [PUT]
+Traceback (most recent call last):
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/yanglin/yl/c++/arcsoft-arcface/face-python/face/bridge.py", line 60, in open_camera
+    return res_success()
+TypeError: res_success() missing 1 required positional argument: 'data'
+2018-04-03 17:29:22,035 - ERROR - app.py - log_exception - 1560 - Exception on /camera/dead [PUT]
+Traceback (most recent call last):
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/yanglin/yl/c++/arcsoft-arcface/face-python/face/bridge.py", line 71, in close_camera
+    return res_success()
+TypeError: res_success() missing 1 required positional argument: 'data'
+2018-04-03 21:09:24,637 - ERROR - app.py - log_exception - 1560 - Exception on /models [POST]
+Traceback (most recent call last):
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/yanglin/.local/virtualenv/venv3/lib/python3.5/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/yanglin/yl/c++/arcsoft-arcface/face-python/face/bridge.py", line 103, in add_face_model
+    image = request.data['image']
+TypeError: byte indices must be integers or slices, not str
