@@ -41,21 +41,15 @@ def auth():
             return res_fail("权限不足")
 
 
-# @app.after_request
-# def http_end_log(self):
-#     pass
-#     #app.logger.info("END" + request.method + request.url)
-
-
 # router
 @app.route('/camera', methods=['PUT'])
 def open_camera():
-    camera_num = request.json["cameraNum"]
-    if camera_num:
+    if 'cameraNum' not in request.json:
         return res_fail("摄像头编号不能为空")
+    camera_num = request.json["cameraNum"]
     result = lib.openCamera(camera_num)
     if result == -1:
-        return res_fail("打开失败")
+        return res_fail("开启失败")
     else:
         return res_success()
 
@@ -87,23 +81,35 @@ def get_cameras_info():
 
 @app.route('/check/feature', methods=['GET'])
 def check_feature_info():
-    path = request.args.get('image')
-    if path:
-        result = lib.checkFeature(path)
+    image_id = request.args.get('imageId')
+    if image_id:
+        result = lib.checkFeature(image_id)
         if result == -1:
-            return res_fail("获取失败")
+            return res_fail("检测失败")
         return res_success()
-    return res_fail("获取失败")
+    return res_fail("检测失败")
 
 
 @app.route('/models', methods=['POST'])
 def add_face_model():
-    if 'id' in request.json and 'imageId' in request.json and 'type' in request.json and 'isActived' in request.json:
+    if 'id' in request.json and 'imageId' in request.json and 'isActived' in request.json:
         id = request.json['id']
         imageId = request.json['imageId']
-        type = request.json['type']
         is_actived = request.json['isActived']
-        result = lib.addModel(id, imageId, type, is_actived)
+        result = lib.addModel(id, imageId, is_actived)
+        if result == 1:
+            return res_success()
+        else:
+            return res_fail()
+    return res_fail("请输入正确的参数")
+
+
+@app.route('/secondModel', methods=['PUT'])
+def update_second_model():
+    if 'id' in request.json and 'recordId' in request.json:
+        id = request.json['id']
+        recordId = request.json['recordId']
+        result = lib.updateSecondFaceModel(id, recordId)
         if result == 1:
             return res_success()
         else:
