@@ -15,14 +15,6 @@ app.debug = False
 
 # middelware #
 @app.before_request
-def http_begin_log():
-    app.logger.info("Start" + request.method + request.url)
-    # if request.method != 'GET':
-    #     pass
-    #     #app.logger.info("Data" + request.data)
-
-
-@app.before_request
 def auth():
     if request.method != 'GET':
         if 'auth' in request.json:
@@ -100,7 +92,7 @@ def add_face_model():
         if result == 1:
             return res_success()
         else:
-            return res_fail()
+            return res_fail("人脸检测失败, 请重新上传")
     return res_fail("请输入正确的参数")
 
 
@@ -110,6 +102,18 @@ def update_second_model():
         id = request.json['id']
         recordId = request.json['recordId']
         result = lib.updateSecondFaceModel(id, recordId)
+        if result == 1:
+            return res_success()
+        else:
+            return res_fail()
+    return res_fail("请输入正确的参数")
+
+
+@app.route('/door', methods=['POST'])
+def open_usb():
+    if 'type' in request.json:
+        type = request.json['id']
+        result = lib.writeFd(type)
         if result == 1:
             return res_success()
         else:
