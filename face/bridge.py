@@ -1,12 +1,13 @@
-
+# encoding: utf-8
 from flask import Flask
 import json
 from flask import request
 import ctypes
+from ctypes import cdll,byref,c_float
 from face.utils import res_success, res_fail
 
-ll = ctypes.cdll.LoadLibrary
-lib = ll("/home/yanglin/yl/c++/arcsoft-arcface/arcface/src/libface.so")
+# ll = ctypes.cdll.LoadLibrary
+# lib = ll("/home/yanglin/yl/c++/arcsoft-arcface/arcface/src/libface.so")
 
 app = Flask(__name__)
 
@@ -16,21 +17,11 @@ app.debug = False
 # middelware #
 @app.before_request
 def auth():
-    if request.method != 'GET':
-        if 'auth' in request.json:
-            auth = request.json["auth"]
-            if auth == "123":
-                pass
-            else:
-                return res_fail("权限不足")
-        else:
-            return res_fail("权限不足")
+    auth = request.headers.get('Authorization')
+    if auth == "123":
+        pass
     else:
-        auth = request.args.get('auth')
-        if auth == "123":
-            pass
-        else:
-            return res_fail("权限不足")
+        return res_fail("权限不足")
 
 
 # router
@@ -39,7 +30,7 @@ def open_camera():
     if 'cameraNum' not in request.json:
         return res_fail("摄像头编号不能为空")
     camera_num = request.json["cameraNum"]
-    result = lib.openCamera(camera_num)
+    result = lib.openCamera(int(camera_num))
     if result == -1:
         return res_fail("开启失败")
     else:
@@ -50,7 +41,7 @@ def open_camera():
 def close_camera():
     if 'cameraNum' in request.json:
         camera_num = request.json["cameraNum"]
-        result = lib.freeOneCamera(camera_num)
+        result = lib.freeOneCamera(int(camera_num))
         if result == 0:
             return res_fail("关闭失败")
         else:
@@ -67,8 +58,9 @@ def close_cameras():
 
 @app.route('/cameras', methods=['GET'])
 def get_cameras_info():
-    lib.getAllCameraInfo()
-    return res_success()
+    result = lib.getAllCameraInfo()
+    data = ctypes.string_at(result, -1).decode("utf-8")
+    return res_success(data)
 
 
 @app.route('/check/feature', methods=['GET'])
@@ -109,13 +101,27 @@ def update_second_model():
     return res_fail("请输入正确的参数")
 
 
-@app.route('/door', methods=['POST'])
+@app.route('/open/door', methods=['POST'])
 def open_usb():
     if 'type' in request.json:
-        type = request.json['id']
+        type = request.json['type']
         result = lib.writeFd(type)
         if result == 1:
             return res_success()
         else:
-            return res_fail()
+            return res_fail("开门失败")
+    return res_fail("请输入正确的参数")
+
+
+@app.route('/age/test', methods=['POST'])
+def age_test():
+    if 'id' in request.json and 'attachId' in request.json:
+        id = request.json['id']
+        attachId = request.json['attachId']
+        result = ctypes.c_float()
+        lib.ageText(id, attachId, byref(result))
+        if result.value != -1:
+            return res_success(result.value)
+        else:
+            return res_fail("开门失败")
     return res_fail("请输入正确的参数")

@@ -1,15 +1,15 @@
-
+# encoding: utf-8
 from face.bridge import app
 import logging
 import ctypes
 
-ll = ctypes.cdll.LoadLibrary
-lib = ll("/home/yanglin/yl/c++/arcsoft-arcface/arcface/src/libface.so")
+# ll = ctypes.cdll.LoadLibrary
+# lib = ll("/home/yanglin/yl/c++/arcsoft-arcface/arcface/src/libface.so")
 
 
 if __name__ == '__main__':
     # 初始化引擎
-    lib.initAllEngine()
+    # lib.initAllEngine()
 
     # 日志配置
     handler = logging.FileHandler('flask2.log', encoding='UTF-8')
@@ -23,4 +23,4 @@ if __name__ == '__main__':
 
     app.logger.addHandler(handler)
 
-    app.run(port = 5000)
+    app.run(host = '0.0.0.0', port = 5000)
