@@ -4,7 +4,7 @@ import json
 from flask import request
 import ctypes
 from ctypes import cdll,byref,c_float
-from face.utils import res_success, res_fail
+from face.utils import res_success, res_fail, get_recommond_ids
 
 # ll = ctypes.cdll.LoadLibrary
 # lib = ll("/home/yanglin/yl/c++/arcsoft-arcface/arcface/src/libface.so")
@@ -125,3 +125,13 @@ def age_test():
         else:
             return res_fail("开门失败")
     return res_fail("请输入正确的参数")
+
+
+@app.route('/recommond', methods=['GET'])
+def get_recommond():
+    if 'behavior' in request.json:
+        behavior = request.json['behavior']
+        result = get_recommond_ids(behavior)
+        return res_success(result)
+    else:
+        return res_fail("请输入正确的参数")
