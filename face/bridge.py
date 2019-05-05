@@ -6,8 +6,8 @@ import ctypes
 from ctypes import cdll,byref,c_float
 from face.utils import res_success, res_fail, get_recommond_ids
 
-# ll = ctypes.cdll.LoadLibrary
-# lib = ll("/home/yanglin/yl/c++/arcsoft-arcface/arcface/src/libface.so")
+ll = ctypes.cdll.LoadLibrary
+lib = ll("/home/andy/workspace/arcface/src/libface.so")
 
 app = Flask(__name__)
 
