@@ -4,10 +4,11 @@ import json
 from flask import request
 import ctypes
 from ctypes import cdll,byref,c_float
-from face.utils import res_success, res_fail, get_recommond_ids
+from face.utils import res_success, res_fail
 
 ll = ctypes.cdll.LoadLibrary
 lib = ll("/home/andy/workspace/arcface/src/libface.so")
+lib.initAllEngine()
 
 app = Flask(__name__)
 
