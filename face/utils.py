@@ -3,6 +3,7 @@ import json
 import graphlab
 import pandas as pd
 import jieba
+import numpy as np
 
 
 # 封装基础返回数据
@@ -30,12 +31,28 @@ word_count = graphlab.text_analytics.count_words(datas['content'])
 datas['word_count'] = word_count
 tfidf = graphlab.text_analytics.tf_idf(datas['word_count'])
 datas['tfidf'] = tfidf  # 将计算出来的tfidf赋给语料库
-
-
 def get_recommond_ids(data):
-    # result = knn_model.query(datas[datas['id'] == 21234], k=10)
-    # return result
-    pass
+    # 计算对应的权值
+    duration_sum = sum(int(d['duration']) for d in data)
+    print(data)
+
+    recommonds = []
+    for item in data:
+        item_weight = format(float(item['duration']) / duration_sum, '.1f')
+        print(item_weight)
+        categoryId = int(item['categoryId'])
+        size = int(float(item_weight) * 10 + 2)
+        if(datas[datas['id'] == categoryId]):
+             result = knn_model.query(datas[datas['id'] == categoryId], k=size)
+             result = result.to_dataframe().to_json()
+             result = json.loads(result)['reference_label']
+             for key, value in result.items():
+                if key == '0':
+                    continue
+                else:
+                    recommonds.append(value)
+    recommonds = list(set(recommonds))         
+    return recommonds
 
 
 # 训练模型

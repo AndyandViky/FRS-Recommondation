@@ -5,3 +5,4 @@
 article.csv
 knn_model
 .idea/
+__pycache__/
