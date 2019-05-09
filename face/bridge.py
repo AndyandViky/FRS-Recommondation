@@ -3,12 +3,12 @@ from flask import Flask
 import json
 from flask import request
 import ctypes
-from ctypes import cdll,byref,c_float
+from ctypes import cdll,byref,c_float,c_char_p
 from face.utils import res_success, res_fail, get_recommond_ids
 
-# ll = ctypes.cdll.LoadLibrary
-# lib = ll("/home/andy/workspace/arcface/src/libface.so")
-# lib.initAllEngine()
+ll = ctypes.cdll.LoadLibrary
+lib = ll("/home/andy/workspace/arcface/src/libface.so")
+lib.initAllEngine()
 
 app = Flask(__name__)
 
@@ -59,8 +59,9 @@ def close_cameras():
 
 @app.route('/cameras', methods=['GET'])
 def get_cameras_info():
-    result = lib.getAllCameraInfo()
-    data = ctypes.string_at(result, -1).decode("utf-8")
+    getAllCameraInfo = lib.getAllCameraInfo
+    getAllCameraInfo.restype = c_char_p
+    data = getAllCameraInfo()
     return res_success(data)
 
 
