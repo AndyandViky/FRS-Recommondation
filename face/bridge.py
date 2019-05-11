@@ -81,6 +81,7 @@ def add_face_model():
     if 'id' in request.json and 'imageId' in request.json and 'isActived' in request.json:
         id = request.json['id']
         imageId = request.json['imageId']
+        print("=======%d" % imageId)
         is_actived = request.json['isActived']
         result = lib.addModel(id, imageId, is_actived)
         if result == 1:
@@ -104,15 +105,17 @@ def update_second_model():
 
 
 @app.route('/open/door', methods=['POST'])
-def open_usb():
-    if 'type' in request.json:
-        type = request.json['type']
-        result = lib.writeFd(type)
-        if result == 1:
-            return res_success()
-        else:
-            return res_fail("开门失败")
-    return res_fail("请输入正确的参数")
+def open_door_by_phone():
+    # if 'type' in request.json:
+    #     type = request.json['type']
+    #     result = lib.writeFd(type)
+    #     if result == 1:
+    #         return res_success()
+    #     else:
+    #         return res_fail("开门失败")
+    # return res_fail("请输入正确的参数")
+    lib.openDoorByPhont()
+    return res_success()
 
 
 @app.route('/age/test', methods=['POST'])
