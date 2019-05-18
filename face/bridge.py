@@ -81,7 +81,6 @@ def add_face_model():
     if 'id' in request.json and 'imageId' in request.json and 'isActived' in request.json:
         id = request.json['id']
         imageId = request.json['imageId']
-        print("=======%d" % imageId)
         is_actived = request.json['isActived']
         result = lib.addModel(id, imageId, is_actived)
         if result == 1:
